@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -23,7 +25,7 @@ const Login = ({ onLogin }) => {
         setLoading(true);
         setMessage('');
         try {
-            const res = await axios.post('/api/users/login', { email, password });
+            const res = await axios.post(`${API_BASE_URL}/api/users/login`, { email, password });
             if (isMounted.current) {
                 setMessage('✅ Login successful!');
                 onLogin(res.data.user);

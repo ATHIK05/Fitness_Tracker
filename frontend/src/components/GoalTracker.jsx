@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const typeOptions = [
   { value: 'workout', label: 'Workout (minutes)', icon: '🏋️‍♂️', color: '#2563eb' },
   { value: 'walk', label: 'Walk (km)', icon: '🚶‍♂️', color: '#22c55e' },
@@ -26,7 +28,7 @@ const GoalTracker = ({ user }) => {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.get(`/api/goals/${user._id}`);
+      const res = await axios.get(`${API_BASE_URL}/api/goals/${user._id}`);
       if (isMounted) setGoals(res.data);
     } catch (err) {
       if (err.response && err.response.status === 404) {
@@ -60,7 +62,7 @@ const GoalTracker = ({ user }) => {
         target: Number(form.target),
         unit: form.unit || (form.type === 'workout' ? 'min' : form.type === 'walk' ? 'km' : form.type === 'food' ? 'kcal' : ''),
       };
-      await axios.post('/api/goals', payload);
+      await axios.post(`${API_BASE_URL}/api/goals`, payload);
       setForm({ type: 'workout', target: '', unit: '', endDate: '', description: '' });
       setMessage('Goal added!');
       fetchGoals();
@@ -76,7 +78,7 @@ const GoalTracker = ({ user }) => {
   const handleDelete = async goalId => {
     setError('');
     try {
-      await axios.delete(`/api/goals/${goalId}`);
+      await axios.delete(`${API_BASE_URL}/api/goals/${goalId}`);
       fetchGoals();
     } catch (err) {
       if (err.response && err.response.status === 404) {
@@ -90,7 +92,7 @@ const GoalTracker = ({ user }) => {
   const handleMarkComplete = async goal => {
     setError('');
     try {
-      await axios.patch(`/api/goals/${goal._id}`, { status: 'completed' });
+      await axios.patch(`${API_BASE_URL}/api/goals/${goal._id}`, { status: 'completed' });
       fetchGoals();
     } catch (err) {
       if (err.response && err.response.status === 404) {

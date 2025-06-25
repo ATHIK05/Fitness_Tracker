@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const getLast7Days = () => {
   const days = [];
   for (let i = 6; i >= 0; i--) {
@@ -27,9 +29,9 @@ const Progress = ({ user }) => {
       setError('');
       try {
         const [wRes, fRes, walkRes] = await Promise.all([
-          axios.get(`/api/workouts/${user._id}`),
-          axios.get(`/api/food/${user._id}`),
-          axios.get(`/api/walks/${user._id}`)
+          axios.get(`${API_BASE_URL}/api/workouts/${user._id}`),
+          axios.get(`${API_BASE_URL}/api/food/${user._id}`),
+          axios.get(`${API_BASE_URL}/api/walks/${user._id}`)
         ]);
         setWorkouts(wRes.data);
         setFood(fRes.data);

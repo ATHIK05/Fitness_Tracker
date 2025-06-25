@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const Profile = ({ user }) => {
   const [profile, setProfile] = useState({ name: '', age: '', weight: '', height: '', avatar: '' });
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ const Profile = ({ user }) => {
       setLoading(true);
       setError('');
       try {
-        const res = await axios.get(`/api/users/${user._id}/profile`);
+        const res = await axios.get(`${API_BASE_URL}/api/users/${user._id}/profile`);
         setProfile(res.data);
       } catch (err) {
         setError('Failed to fetch profile.');
@@ -32,7 +34,7 @@ const Profile = ({ user }) => {
     setMessage('');
     setError('');
     try {
-      const res = await axios.patch(`/api/users/${user._id}/profile`, profile);
+      const res = await axios.patch(`${API_BASE_URL}/api/users/${user._id}/profile`, profile);
       setProfile(res.data.user);
       setMessage('Profile updated!');
       setEdit(false);

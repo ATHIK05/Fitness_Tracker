@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const DAILY_GOAL = 2000;
 
 const CalorieTracker = ({ user }) => {
@@ -21,7 +23,7 @@ const CalorieTracker = ({ user }) => {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.get(`/api/users/${user._id}`);
+            const res = await axios.get(`${API_BASE_URL}/api/users/${user._id}`);
             setCaloriesConsumed(res.data.calories || 0);
         } catch (err) {
             setError('Failed to fetch calories.');
@@ -35,7 +37,7 @@ const CalorieTracker = ({ user }) => {
         setError('');
         setMessage('');
         try {
-            await axios.patch(`/api/users/${user._id}`, { calories: Number(inputCalories) });
+            await axios.patch(`${API_BASE_URL}/api/users/${user._id}`, { calories: Number(inputCalories) });
             setMessage('Calories updated!');
             setInputCalories('');
             fetchCalories();

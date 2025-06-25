@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +16,7 @@ const Signup = () => {
         setLoading(true);
         setMessage('');
         try {
-            await axios.post('/api/users/request-otp', { email, password });
+            await axios.post(`${API_BASE_URL}/api/users/request-otp`, { email, password });
             setStep(2);
             setMessage('✅ OTP sent to your email.');
         } catch (err) {
@@ -28,7 +30,7 @@ const Signup = () => {
         setLoading(true);
         setMessage('');
         try {
-            await axios.post('/api/users/verify-otp', { email, otp });
+            await axios.post(`${API_BASE_URL}/api/users/verify-otp`, { email, otp });
             setStep(3);
             setMessage('🎉 Signup successful! You can now log in.');
         } catch (err) {

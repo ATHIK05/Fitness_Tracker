@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const FoodTracker = ({ user }) => {
     const [foodIntake, setFoodIntake] = useState([]);
     const [foodName, setFoodName] = useState('');
@@ -21,7 +23,7 @@ const FoodTracker = ({ user }) => {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.get(`/api/food/${user._id}`);
+            const res = await axios.get(`${API_BASE_URL}/api/food/${user._id}`);
             setFoodIntake(res.data);
         } catch (err) {
             setError('Failed to fetch food entries.');
@@ -35,7 +37,7 @@ const FoodTracker = ({ user }) => {
         setError('');
         setMessage('');
         try {
-            await axios.post('/api/food', {
+            await axios.post(`${API_BASE_URL}/api/food`, {
                 userId: user._id,
                 name: foodName,
                 calories: Number(calories),

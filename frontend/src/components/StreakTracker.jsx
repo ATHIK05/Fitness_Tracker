@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const StreakTracker = ({ user }) => {
     const [streak, setStreak] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -18,9 +20,9 @@ const StreakTracker = ({ user }) => {
         setError('');
         try {
             // Update streak (should be called on login/activity)
-            await axios.post('/api/streak', { userId: user._id });
+            await axios.post(`${API_BASE_URL}/api/streak`, { userId: user._id });
             // Fetch streak
-            const res = await axios.get(`/api/streak/${user._id}`);
+            const res = await axios.get(`${API_BASE_URL}/api/streak/${user._id}`);
             setStreak(res.data);
         } catch (err) {
             setError('Failed to fetch streak.');

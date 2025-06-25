@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const workoutIcons = {
     Running: '🏃‍♂️',
     Cycling: '🚴‍♂️',
@@ -30,7 +32,7 @@ const WorkoutTracker = ({ user }) => {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.get(`/api/workouts/${user._id}`);
+            const res = await axios.get(`${API_BASE_URL}/api/workouts/${user._id}`);
             setWorkouts(res.data);
         } catch (err) {
             setError('Failed to fetch workouts.');
@@ -44,7 +46,7 @@ const WorkoutTracker = ({ user }) => {
         setError('');
         setMessage('');
         try {
-            await axios.post('/api/workouts', {
+            await axios.post(`${API_BASE_URL}/api/workouts`, {
                 userId: user._id,
                 workoutType,
                 duration: Number(duration),

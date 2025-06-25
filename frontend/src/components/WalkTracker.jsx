@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://fitness-tracker-sfug.vercel.app';
+
 const DAILY_GOAL_KM = 5;
 
 const WalkTracker = ({ user }) => {
@@ -21,7 +23,7 @@ const WalkTracker = ({ user }) => {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.get(`/api/walks/${user._id}`);
+            const res = await axios.get(`${API_BASE_URL}/api/walks/${user._id}`);
             setDistanceWalked(res.data.distanceWalked || 0);
         } catch (err) {
             setError('Failed to fetch walk distance.');
@@ -35,7 +37,7 @@ const WalkTracker = ({ user }) => {
         setError('');
         setMessage('');
         try {
-            await axios.post('/api/walks', {
+            await axios.post(`${API_BASE_URL}/api/walks`, {
                 userId: user._id,
                 distance: Number(distance)
             });
