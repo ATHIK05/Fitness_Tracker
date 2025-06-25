@@ -31,6 +31,17 @@ const App = () => {
     setUser(null);
   };
 
+  const [navOpen, setNavOpen] = useState(false);
+  const handleNavToggle = () => setNavOpen(open => !open);
+  const handleNavLinkClick = () => setNavOpen(false);
+
+  // Close nav on route change (optional, for better UX)
+  useEffect(() => {
+    const closeNav = () => setNavOpen(false);
+    window.addEventListener('resize', closeNav);
+    return () => window.removeEventListener('resize', closeNav);
+  }, []);
+
   return (
     <Router>
       <header>
@@ -39,45 +50,48 @@ const App = () => {
         </span>
       </header>
 
-      <nav>
-        <div>
-          <Link to="/">Dashboard</Link>
-          {user && <Link to="/profile">Profile</Link>}
-          {user && <Link to="/progress">Progress</Link>}
-          {user && <Link to="/goals">Goals</Link>}
+      <nav className={navOpen ? 'nav-mobile-open' : ''}>
+        <button className="nav-toggle" aria-label="Toggle navigation" onClick={handleNavToggle}>
+          <span className="nav-hamburger"></span>
+        </button>
+        <div className={`nav-links${navOpen ? ' show' : ''}`}>
+          <Link to="/" onClick={handleNavLinkClick}>Dashboard</Link>
+          {user && <Link to="/profile" onClick={handleNavLinkClick}>Profile</Link>}
+          {user && <Link to="/progress" onClick={handleNavLinkClick}>Progress</Link>}
+          {user && <Link to="/goals" onClick={handleNavLinkClick}>Goals</Link>}
         </div>
-        <div>
-          {!user ? (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-            </>
-          ) : (
-            <>
-              <span style={{ color: 'var(--color-muted)', fontWeight: 500, marginRight: 16 }}>
-                Welcome, {user.email}
-              </span>
-              <Link to="/profile" style={{ marginRight: 8, color: 'var(--color-primary)', textDecoration: 'none', fontWeight: 500 }}>Profile</Link>
-              <button
-                onClick={handleLogout}
-                style={{
-                  background: 'var(--color-primary)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: 8,
-                  padding: '8px 18px',
-                  fontWeight: 600,
-                  fontSize: 15,
-                  cursor: 'pointer',
-                  marginLeft: 8,
-                  transition: 'background 0.2s',
-                }}
-              >
-                Logout
-              </button>
-            </>
-          )}
-        </div>
+        {user && (
+          <div className={`nav-user${navOpen ? ' show' : ''}`} style={{ width: '100%' }}>
+            <div style={{ color: 'var(--color-muted)', fontWeight: 500, margin: '12px 0 8px 0', textAlign: 'center' }}>
+              Welcome, {user.email}
+            </div>
+            <button
+              onClick={() => { handleLogout(); handleNavLinkClick(); }}
+              style={{
+                background: 'var(--color-primary)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 8,
+                padding: '10px 0',
+                fontWeight: 600,
+                fontSize: 16,
+                cursor: 'pointer',
+                width: '90%',
+                margin: '0 auto 10px auto',
+                display: 'block',
+                transition: 'background 0.2s',
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        )}
+        {!user && (
+          <div className={`nav-auth${navOpen ? ' show' : ''}`}>
+            <Link to="/login" onClick={handleNavLinkClick}>Login</Link>
+            <Link to="/signup" onClick={handleNavLinkClick}>Sign Up</Link>
+          </div>
+        )}
       </nav>
 
       <div style={{ minHeight: 'calc(100vh - 160px)' }}>
