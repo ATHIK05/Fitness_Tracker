@@ -18,6 +18,7 @@ const Dashboard = ({ user }) => {
                 setLoading(true);
                 const response = await axios.get(`/api/users/${user._id}`);
                 setUserData(response.data);
+                console.log('Fetched userData:', response.data); // Debug log
             } catch (error) {
                 setError('Error fetching user data.');
             } finally {
