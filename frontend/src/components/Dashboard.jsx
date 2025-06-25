@@ -7,6 +7,8 @@ import StreakTracker from './StreakTracker';
 import WalkTracker from './WalkTracker';
 // import { Chart } from 'react-chartjs-2'; // Placeholder for future chart integration
 
+const API_BASE_URL = 'https://fitness-tracker-3hds.onrender.com';
+
 const Dashboard = ({ user }) => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ const Dashboard = ({ user }) => {
         const fetchUserData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`/api/users/${user._id}`);
+                const response = await axios.get(`${API_BASE_URL}/api/users/${user._id}`);
                 setUserData(response.data);
                 console.log('Fetched userData:', response.data); // Debug log
             } catch (error) {
