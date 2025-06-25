@@ -136,12 +136,82 @@ nav a:hover {
     100% { transform: scale(1.15); }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
     .dashboard {
         grid-template-columns: 1fr;
         gap: 20px;
     }
     .container {
         padding: 0 8px;
+    }
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 12px 12px;
+    }
+    nav div {
+        margin-bottom: 8px;
+    }
+    .card {
+        padding: 24px 10px;
+    }
+}
+
+@media (max-width: 700px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .container {
+        padding: 0 4px;
+    }
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 4px;
+    }
+    nav div {
+        margin-bottom: 6px;
+    }
+    .card {
+        padding: 16px 4px;
+    }
+    header, .footer {
+        font-size: 1rem;
+        padding: 10px 0;
+    }
+    .button {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 14px 0;
+    }
+    input, select, textarea {
+        font-size: 1.1rem;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .dashboard {
+        gap: 10px;
+    }
+    .card {
+        padding: 10px 2px;
+        font-size: 0.98rem;
+    }
+    .streak-card {
+        padding: 16px 2px;
+        font-size: 1rem;
+    }
+    nav {
+        font-size: 0.98rem;
+    }
+    .button {
+        font-size: 1rem;
+        padding: 12px 0;
+    }
+    input, select, textarea {
+        font-size: 1rem;
+        padding: 8px;
     }
 }
