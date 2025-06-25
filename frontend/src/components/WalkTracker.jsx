@@ -36,10 +36,16 @@ const WalkTracker = ({ user }) => {
         setLoading(true);
         setError('');
         setMessage('');
+        const walkDistance = Number(distance);
+        if (!user || !user._id || !walkDistance || isNaN(walkDistance) || walkDistance <= 0) {
+            setError('Please enter a valid distance.');
+            setLoading(false);
+            return;
+        }
         try {
             await axios.post(`${API_BASE_URL}/api/walks`, {
                 userId: user._id,
-                distance: Number(distance)
+                distance: walkDistance
             });
             setMessage('Walk added!');
             setDistance('');

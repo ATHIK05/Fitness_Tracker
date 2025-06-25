@@ -45,12 +45,19 @@ const WorkoutTracker = ({ user }) => {
         setLoading(true);
         setError('');
         setMessage('');
+        const workoutDuration = Number(duration);
+        const workoutCalories = Number(caloriesBurned);
+        if (!user || !user._id || !workoutType.trim() || !workoutDuration || isNaN(workoutDuration) || workoutDuration <= 0 || !workoutCalories || isNaN(workoutCalories) || workoutCalories <= 0) {
+            setError('Please enter valid workout details.');
+            setLoading(false);
+            return;
+        }
         try {
             await axios.post(`${API_BASE_URL}/api/workouts`, {
                 userId: user._id,
                 workoutType,
-                duration: Number(duration),
-                caloriesBurned: Number(caloriesBurned)
+                duration: workoutDuration,
+                caloriesBurned: workoutCalories
             });
             setMessage('Workout added!');
             setWorkoutType('Running');
