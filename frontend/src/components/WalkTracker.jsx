@@ -36,8 +36,11 @@ const WalkTracker = ({ user }) => {
         setLoading(true);
         setError('');
         setMessage('');
-        const walkDistance = Number(distance);
-        if (!user || !user._id || !walkDistance || isNaN(walkDistance) || walkDistance <= 0) {
+        const walkDistance = parseFloat(distance);
+        if (
+            !user || !user._id ||
+            isNaN(walkDistance) || walkDistance <= 0
+        ) {
             setError('Please enter a valid distance.');
             setLoading(false);
             return;

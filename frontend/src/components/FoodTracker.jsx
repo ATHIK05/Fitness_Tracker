@@ -36,8 +36,12 @@ const FoodTracker = ({ user }) => {
         setLoading(true);
         setError('');
         setMessage('');
-        const foodCalories = Number(calories);
-        if (!user || !user._id || !foodName.trim() || !foodCalories || isNaN(foodCalories) || foodCalories <= 0) {
+        const foodCalories = parseFloat(calories);
+        if (
+            !user || !user._id ||
+            !foodName.trim() ||
+            isNaN(foodCalories) || foodCalories <= 0
+        ) {
             setError('Please enter valid food name and calories.');
             setLoading(false);
             return;

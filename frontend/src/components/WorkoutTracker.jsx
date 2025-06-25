@@ -45,9 +45,14 @@ const WorkoutTracker = ({ user }) => {
         setLoading(true);
         setError('');
         setMessage('');
-        const workoutDuration = Number(duration);
-        const workoutCalories = Number(caloriesBurned);
-        if (!user || !user._id || !workoutType.trim() || !workoutDuration || isNaN(workoutDuration) || workoutDuration <= 0 || !workoutCalories || isNaN(workoutCalories) || workoutCalories <= 0) {
+        const workoutDuration = parseFloat(duration);
+        const workoutCalories = parseFloat(caloriesBurned);
+        if (
+            !user || !user._id ||
+            !workoutType.trim() ||
+            isNaN(workoutDuration) || workoutDuration <= 0 ||
+            isNaN(workoutCalories) || workoutCalories <= 0
+        ) {
             setError('Please enter valid workout details.');
             setLoading(false);
             return;
